@@ -1,14 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ScrollToTop from "./component/scrollToTop";
-
-import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
-import injectContext from "./store/appContext";
-
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import injectContext from "./store/appContext.js";
+import "../styles/index.scss";
+import Navbar from "./component/Navbar.jsx";
+import ContactsList from "./views/ContactsList.jsx";
+import EditContact from "./views/EditContact.jsx";
+import AddContact from "./views/AddContact.jsx";
 
 //create your first component
 const Layout = () => {
@@ -19,24 +16,21 @@ const Layout = () => {
 	return (
 		<div>
 			<BrowserRouter basename={basename}>
-				<ScrollToTop>
-					<Navbar />
+				<Navbar />
+				<div className="contact-app">
 					<Switch>
 						<Route exact path="/">
-							<Home />
+							<ContactsList />
 						</Route>
-						<Route exact path="/demo">
-							<Demo />
+						<Route exact path="/add-contact">
+							<AddContact />
 						</Route>
-						<Route exact path="/single/:theid">
-							<Single />
-						</Route>
+						<Route path="/edit-contact/:id" component={EditContact} />
 						<Route>
 							<h1>Not found!</h1>
 						</Route>
 					</Switch>
-					<Footer />
-				</ScrollToTop>
+				</div>
 			</BrowserRouter>
 		</div>
 	);

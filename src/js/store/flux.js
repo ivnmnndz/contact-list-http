@@ -1,42 +1,79 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			contacts: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			getContacts: () => {
+				fetch("https://assets.breatheco.de/apis/fake/contact/agenda/ivan_agenda")
+					.then(res => {
+						if (!res.ok) {
+							throw new Error(err);
+						}
+						return res.json();
+					})
+					.then(data => {
+						getStore(setStore({ contacts: data }));
+					});
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
+			addContact: ({ full_name, email, phone, address }) => {
+				fetch("https://assets.breatheco.de/apis/fake/contact/", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						full_name: full_name,
+						email: email,
+						agenda_slug: "ivan_agenda",
+						address: address,
+						phone: phone
+					})
+				})
+					.then(res => {
+						if (!res.ok) {
+							throw new Error("error");
+						}
+					})
+					.then(() => {
+						getActions().getContacts();
+					});
+			},
+
+			deleteContact: contact_id => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${contact_id}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				}).then(res => {
+					if (!res.ok) {
+						throw new Error("error");
+					}
+					getActions().getContacts();
 				});
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
+			updateContact: (id, { full_name, email, phone, address }) => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						full_name: full_name,
+						email: email,
+						agenda_slug: "ivan_agenda",
+						address: address,
+						phone: phone
+					})
+				}).then(res => {
+					if (!res.ok) {
+						throw new Error("error");
+					}
+					getActions().getContacts();
+				});
 			}
 		}
 	};
