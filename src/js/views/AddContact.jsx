@@ -31,34 +31,40 @@ const AddContact = () => {
 	};
 
 	return (
-		<div>
+		<>
 			<h2>Add a Contact</h2>
 			<form onSubmit={handleSubmit} className="contact-form">
 				<label>
 					Name
-					<input
-						name="full_name"
-						value={values.full_name}
-						placeholder="Full Name"
-						onChange={handleInputChange}
-					/>
+					<input name="full_name" value={values.full_name} onChange={handleInputChange} />
 				</label>
 				<label>
 					Email
-					<input name="email" value={values.email} placeholder="Email" onChange={handleInputChange} />
+					<input name="email" value={values.email} onChange={handleInputChange} />
 				</label>
 				<label>
 					Phone
-					<input name="phone" value={values.phone} placeholder="Phone Number" onChange={handleInputChange} />
+					<input name="phone" value={values.phone} onChange={handleInputChange} />
 				</label>
 				<label>
 					Address
-					<input name="address" value={values.address} placeholder="Address" onChange={handleInputChange} />
+					<input name="address" value={values.address} onChange={handleInputChange} />
 				</label>
-				<br />
-				<button type="submit">Submit</button>
+				<div className="button-box">
+					<button className="button" type="submit">
+						Submit
+					</button>
+					<button
+						className="button"
+						onClick={e => {
+							e.preventDefault();
+							history.goBack();
+						}}>
+						Go Back
+					</button>
+				</div>
 			</form>
-		</div>
+		</>
 	);
 };
 

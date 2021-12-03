@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
 	return (
 		<nav className="app-navbar">
-			<Link to="/">
+			<Link className="nav-link" to="/">
 				<span>Contact List</span>
 			</Link>
-			<Link to="/add-contact">
+			<Link className="nav-link" to="/add-contact">
 				<span>Add a New Contact</span>
 			</Link>
 		</nav>

@@ -6,7 +6,7 @@ import { Context } from "../store/appContext";
 const ContactsList = () => {
 	const { store } = useContext(Context);
 	return (
-		<div>
+		<>
 			<h2>Contact List</h2>
 			<div className="contact-list">
 				{store.contacts &&
@@ -14,7 +14,7 @@ const ContactsList = () => {
 						return <ContactCard item={item} key={index} />;
 					})}
 			</div>
-		</div>
+		</>
 	);
 };
 export default ContactsList;
